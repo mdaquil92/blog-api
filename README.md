@@ -82,7 +82,7 @@ src/main/java/com/blogapi/
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/blog-api.git
+git clone Repo link
 cd blog-api
 ```
 
