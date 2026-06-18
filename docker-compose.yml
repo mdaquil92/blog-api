@@ -1,0 +1,37 @@
+services:
+  blog-db:
+    image: mysql:8.0
+    container_name: blog-db
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: blog_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - blog-db-data:/var/lib/mysql
+    networks:
+      - myNetwork
+
+  blog-api:
+    image: blog-api:v1
+    container_name: blog-api
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://blog-db:3306/blog_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+      APP_JWT_SECRET: yourSecretKeyHere
+    depends_on:
+      - blog-db
+    restart: on-failure
+    networks:
+      - myNetwork
+
+volumes:
+  blog-db-data:
+
+networks:
+  myNetwork:
